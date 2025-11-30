@@ -5,13 +5,12 @@ from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 from cloak.fakeua import random_ua
-from cloak.settings import TIMEOUT
+from cloak.settings import TIMEOUT, FAKE_UA
 
 
 class ProductParser:
     def __init__(self):
         self._viewport = {"width": 1280, "height": 720}
-        self._proxy = None
         self._timeout = TIMEOUT
 
     async def get_product_info(self, key: str, url: str) -> Dict[str, str | None | float]:
@@ -73,13 +72,12 @@ class ProductParser:
         return await playwright.chromium.launch(
             headless=True,
             slow_mo=50,
-            proxy=self._proxy or None,
         )
 
     async def _create_context(self, browser):
         context = await browser.new_context(
             viewport=self._viewport,
-            proxy=self._proxy or None,
+            userAgent=random_ua() if FAKE_UA else None
         )
         await context.add_init_script("""
             Object.defineProperty(navigator, 'webdriver', {get: () => undefined});

@@ -1,14 +1,8 @@
 import os
 
-
-PROXY = True # True используем прокси, False не используем прокси
-FAKE_UA = True # True для использования фейкового User-Agent, False используем реальный User-Agent
-TIMEOUT = 30_000 # Редактировать, при низкой скорости интернета
+FAKE_UA = True if os.getenv('FAKE_UA') == 'True' else False # True для использования фейкового User-Agent, False используем реальный User-Agent
+TIMEOUT = os.getenv('TIMEOUT') # Редактировать, при низкой скорости интернета
 
 # Дефолтные значения, не редактировать
-WARM_UP_SITE = 'https://goldapple.ru'
-TOR_EXE_PATH = os.getenv('TOR_PATH') # Путь до файла tor.exe
-DEFAULT_ACCEPT = 'application/json, text/plain, */*'
-SOCKS_HOST = "127.0.0.1"
-SOCKS_PORT = 9050
-CONTROL_PORT = 9051
+WARM_UP_SITE = os.getenv('WARM_UP_SITE')
+DEFAULT_ACCEPT = os.getenv('DEFAULT_ACCEPT')

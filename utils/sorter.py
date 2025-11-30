@@ -1,19 +1,25 @@
 from collections import defaultdict
 from typing import Dict, List
 
+import pytest
+
 
 def sorter_product(data):
     """ Сортирует список товаров по типам """
-    grouped = defaultdict(list)
+    try:
+        grouped = defaultdict(list)
 
-    for product in data:
-        if product.get("product_type"):
-            tp = product.get("product_type")
-            grouped[tp].append(product)
-        else:
-            data.remove(product)
+        for product in data:
+            if product.get("product_type"):
+                tp = product.get("product_type")
+                grouped[tp].append(product)
 
-    return dict(grouped)
+            else:
+                continue
+
+        return dict(grouped)
+    except Exception as e:
+        print(f'Передан не верный формат данных: {e}')
 
 
 def sort_by_popularity(data: Dict[str, List[dict]]) -> Dict[str, List[dict]]:
@@ -23,7 +29,7 @@ def sort_by_popularity(data: Dict[str, List[dict]]) -> Dict[str, List[dict]]:
     """
     def key_fn(prod: dict) -> tuple:
 
-        coef = prod.get("popularity_coefficient")
-        return (coef is None, -float(coef) if coef is not None else 0.0)
+            coef = prod.get("popularity_coefficient")
+            return (coef is None, -float(coef) if coef is not None else 0.0)
 
     return {type_: sorted(products, key=key_fn) for type_, products in data.items()}
