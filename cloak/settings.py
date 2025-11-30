@@ -9,3 +9,6 @@ TIMEOUT = 30_000 # Редактировать, при низкой скорос�
 WARM_UP_SITE = 'https://goldapple.ru'
 TOR_EXE_PATH = os.getenv('TOR_PATH') # Путь до файла tor.exe
 DEFAULT_ACCEPT = 'application/json, text/plain, */*'
+SOCKS_HOST = "127.0.0.1"
+SOCKS_PORT = 9050
+CONTROL_PORT = 9051

@@ -2,15 +2,14 @@ import time
 
 import requests
 import stem
+from stem import control
 
-SOCKS_HOST = '127.0.0.1'
-SOCKS_PORT = 9050
-CONTROL_PORT = 9051
+from cloak.settings import CONTROL_PORT, SOCKS_HOST, SOCKS_PORT
 
 
 def new_tor_ip(wait: bool = True) -> None:
     """строит новую цепь Tor (вызывать ПЕРЕД каждым requests)"""
-    with stem.control.Controller.from_port(port=CONTROL_PORT) as ctl:
+    with control.Controller.from_port(port=CONTROL_PORT) as ctl:
         ctl.authenticate()
         ctl.signal(stem.Signal.NEWNYM)
         if wait:
@@ -18,8 +17,8 @@ def new_tor_ip(wait: bool = True) -> None:
 
 def tor_proxy():
     """возвращает прокси-словарь для requests"""
-    return {'http':  f'socks5h://{SOCKS_HOST}:{SOCKS_PORT}',
-            'https': f'socks5h://{SOCKS_HOST}:{SOCKS_PORT}'}
+    proxy = f"socks5://{SOCKS_HOST}:{SOCKS_PORT}"  # без h, без auth
+    return {"http": proxy, "https": proxy}
 
 def tor_get(url, **kw):
     """GET-запрос ЧЕРЕЗ ТОР + автоматическая смена IP"""

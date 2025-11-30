@@ -3,6 +3,7 @@ import time
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
+from cloak.fakeua import random_ua
 from cloak.settings import TIMEOUT
 
 
@@ -44,13 +45,13 @@ class ParserArticle:
         return playwright.chromium.launch(
             headless=True,
             slow_mo=50,
-            proxy=self._proxy if self._proxy else None
+            proxy=self._proxy if self._proxy else None,
         )
 
     def _create_context(self, browser):
         context = browser.new_context(
             viewport=self._viewport,
-            proxy=self._proxy if self._proxy else None
+            proxy=self._proxy if self._proxy else None,
         )
         context.add_init_script("""
             Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
