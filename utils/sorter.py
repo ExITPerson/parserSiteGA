@@ -7,10 +7,14 @@ def sorter_product(data):
     grouped = defaultdict(list)
 
     for product in data:
-        tp = product.get("product_type")
-        grouped[tp].append(product)
+        if product.get("product_type"):
+            tp = product.get("product_type")
+            grouped[tp].append(product)
+        else:
+            data.remove(product)
 
     return dict(grouped)
+
 
 def sort_by_popularity(data: Dict[str, List[dict]]) -> Dict[str, List[dict]]:
     """
@@ -23,4 +27,3 @@ def sort_by_popularity(data: Dict[str, List[dict]]) -> Dict[str, List[dict]]:
         return (coef is None, -float(coef) if coef is not None else 0.0)
 
     return {type_: sorted(products, key=key_fn) for type_, products in data.items()}
-
