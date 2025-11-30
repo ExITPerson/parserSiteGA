@@ -1,0 +1,72 @@
+import time
+
+from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
+
+from cloak.settings import TIMEOUT
+
+
+
+class ParserArticle:
+    def __init__(self):
+        self._viewport = {"width": 1280, "height": 720}
+        self._proxy = None
+        self._timeout = TIMEOUT
+
+    def get_articles(self, url: str) -> list | None:
+        with sync_playwright() as s:
+            browser = self._launch_browser(s)
+            try:
+                context = self._create_context(browser)
+                html = self._navigate_to_site(context, url)
+                soup = BeautifulSoup(html, 'lxml')
+                articles_block = soup.find_all('div', class_='pfzwtN')
+                if not articles_block:
+                    return None
+                articles = {}
+                for art in articles_block:
+                    try:
+                        article = art.find('meta')['content']
+                        link = art.find('a')['href']
+                        articles[article] = link
+                    except:
+                        continue
+                return articles
+            except Exception as e:
+                print(f'Ошибка в блоке get_articles: {e}')
+            finally:
+                try:
+                    browser.close()
+                except:
+                    pass
+
+    def _launch_browser(self, playwright):
+        return playwright.chromium.launch(
+            headless=True,
+            slow_mo=50,
+            proxy=self._proxy if self._proxy else None
+        )
+
+    def _create_context(self, browser):
+        context = browser.new_context(
+            viewport=self._viewport,
+            proxy=self._proxy if self._proxy else None
+        )
+        context.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', {get: () => undefined});
+            Object.defineProperty(navigator, 'plugins', {get: () => [1,2,3,4,5]});
+        """)
+        return context
+
+    def _navigate_to_site(self, context, url):
+        page = context.new_page()
+        page.goto(url, wait_until="domcontentloaded")
+        page.wait_for_selector("div.pfzwtN", timeout=30_000)
+        t0 = time.time()
+        while time.time() - t0 < 20:
+            before = page.locator("div.pfzwtN").count()
+            page.wait_for_timeout(1500)
+            after = page.locator("div.pfzwtN").count()
+            if before == after:
+                break
+        return page.content()
