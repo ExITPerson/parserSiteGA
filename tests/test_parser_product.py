@@ -46,7 +46,6 @@ async def test_get_product_info_success():
          patch.object(ProductParser, "_create_context", new_callable=AsyncMock) as mock_create_ctx, \
          patch.object(ProductParser, "_navigate_to_site", new_callable=AsyncMock) as mock_nav:
 
-        # Настраиваем async with async_playwright() as p:
         playwright_obj = object()
         cm = AsyncMock()
         cm.__aenter__.return_value = playwright_obj

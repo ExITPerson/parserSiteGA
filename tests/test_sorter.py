@@ -98,6 +98,7 @@ def test_sort_by_popularity_all_none():
         {"name": "X", "popularity_coefficient": None},
         {"name": "Y", "popularity_coefficient": None},
     ]}
+
     sorted_data = sort_by_popularity(data)
     assert len(sorted_data["test"]) == 2
 
@@ -108,6 +109,7 @@ def test_sort_by_popularity_all_numbers():
         {"name": "N2", "popularity_coefficient": 1.5},
         {"name": "N3", "popularity_coefficient": 7.2},
     ]}
+
     sorted_data = sort_by_popularity(data)
     coeffs = [p["popularity_coefficient"] for p in sorted_data["nums"]]
     assert coeffs == [7.2, 3.0, 1.5]
@@ -118,6 +120,7 @@ def test_sort_by_popularity_key_missing():
         {"name": "no_key"},
         {"name": "with_key", "popularity_coefficient": 5.0},
     ]}
+
     sorted_data = sort_by_popularity(data)
     names = [p["name"] for p in sorted_data["misc"]]
     assert names == ["with_key", "no_key"]

@@ -1,8 +1,6 @@
-import os
-
-FAKE_UA = True if os.getenv('FAKE_UA') == 'True' else False # True для использования фейкового User-Agent, False используем реальный User-Agent
-TIMEOUT = os.getenv('TIMEOUT') # Редактировать, при низкой скорости интернета
+FAKE_UA = False # True для использования фейкового User-Agent, False используем реальный User-Agent
+TIMEOUT = 120_000 # Редактировать, при низкой скорости интернета
 
 # Дефолтные значения, не редактировать
-WARM_UP_SITE = os.getenv('WARM_UP_SITE')
-DEFAULT_ACCEPT = os.getenv('DEFAULT_ACCEPT')
+WARM_UP_SITE = 'https://goldapple.ru'
+DEFAULT_ACCEPT = 'application/json, text/plain, */*'

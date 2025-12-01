@@ -14,7 +14,6 @@ def test_clean_cell(text):
 
 def test_clean_cell_no_indents():
     text = 'Привет рабочие пролетариата от товарища Ленина'
-
     assert clean_cell(text) == 'Привет рабочие пролетариата от товарища Ленина'
 
 def test_clean_cell_no_text():

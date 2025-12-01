@@ -18,6 +18,7 @@ def sorter_product(data):
                 continue
 
         return dict(grouped)
+
     except Exception as e:
         print(f'Передан не верный формат данных: {e}')
 
