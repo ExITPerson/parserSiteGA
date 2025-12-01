@@ -25,6 +25,7 @@ def test_sorter_product():
         ]
     }
 
+
 def test_sorter_product_no_type():
     """ Проверка пропуска товаров без типа """
     data = [
@@ -48,11 +49,13 @@ def test_sorter_product_no_type():
         ]
     }
 
+
 def test_sorter_product_raises_on_wrong_type():
     """ Проверка то, что функция возвращает None при неверном типе данных и выдает ошибку """
     assert sorter_product("string") is None
     assert sorter_product(None) is None
     assert sorter_product({"a": 1}) is None
+
 
 @pytest.fixture
 def sample_data():
@@ -70,6 +73,7 @@ def sample_data():
         ],
     }
 
+
 def test_sort_by_popularity_each_category_descending(sample_data):
     """ Проверка на корректность сортировки """
     sorted_data = sort_by_popularity(sample_data)
@@ -80,6 +84,7 @@ def test_sort_by_popularity_each_category_descending(sample_data):
     deo_names = [p["name"] for p in sorted_data["deo"]]
     assert deo_names == ["Product 6", "Product 7", "Product 5"]
 
+
 def test_sort_by_popularity_none_is_last(sample_data):
     """ Проверка на то, что последний элемент имеет None """
     sorted_data = sort_by_popularity(sample_data)
@@ -87,10 +92,12 @@ def test_sort_by_popularity_none_is_last(sample_data):
     assert sorted_data["parfume"][-1]["popularity_coefficient"] is None
     assert sorted_data["deo"][-1]["popularity_coefficient"] is None
 
+
 def test_sort_by_popularity_empty_category():
     """ Проверка, если сортируется пустой список """
     data = {"empty": []}
     assert sort_by_popularity(data) == {"empty": []}
+
 
 def test_sort_by_popularity_all_none():
     """ Проверка, что возвращаются все элементы, если все они имеют коэффициент None """
@@ -101,6 +108,7 @@ def test_sort_by_popularity_all_none():
 
     sorted_data = sort_by_popularity(data)
     assert len(sorted_data["test"]) == 2
+
 
 def test_sort_by_popularity_all_numbers():
     """ Проверка на корректность сортировки """
@@ -113,6 +121,7 @@ def test_sort_by_popularity_all_numbers():
     sorted_data = sort_by_popularity(data)
     coeffs = [p["popularity_coefficient"] for p in sorted_data["nums"]]
     assert coeffs == [7.2, 3.0, 1.5]
+
 
 def test_sort_by_popularity_key_missing():
     """ Проверка если у товара вообще нет ключа – считаем None """

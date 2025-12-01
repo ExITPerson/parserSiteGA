@@ -58,7 +58,6 @@ async def test_get_product_info_success():
 
         result = await parser.get_product_info("ABC123", "https://goldapple.com/product")
 
-
     expected = {
         "article": "ABC123",
         "name": "Очень крутой продукт",

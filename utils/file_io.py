@@ -8,6 +8,7 @@ from utils.cleaner import clean_cell
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
+
 def save_json(data):
 
     filepath = ROOT_DIR / 'data' / 'json'
@@ -21,6 +22,7 @@ def save_json(data):
 
     except Exception as e:
         print(f'Ошибка сохранения json файла: {e}')
+
 
 def save_csv(data, file_name):
 

@@ -1,8 +1,6 @@
 from collections import defaultdict
 from typing import Dict, List
 
-import pytest
-
 
 def sorter_product(data):
     """ Сортирует список товаров по типам """
@@ -30,7 +28,7 @@ def sort_by_popularity(data: Dict[str, List[dict]]) -> Dict[str, List[dict]]:
     """
     def key_fn(prod: dict) -> tuple:
 
-            coef = prod.get("popularity_coefficient")
-            return (coef is None, -float(coef) if coef is not None else 0.0)
+        coef = prod.get("popularity_coefficient")
+        return (coef is None, -float(coef) if coef is not None else 0.0)
 
     return {type_: sorted(products, key=key_fn) for type_, products in data.items()}

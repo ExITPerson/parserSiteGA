@@ -33,7 +33,7 @@ class ParserArticle:
                         link = art.find('a')['href']
                         articles[article] = link
 
-                    except:
+                    except Exception:
                         continue
 
                 if not articles:
@@ -50,7 +50,7 @@ class ParserArticle:
             finally:
                 try:
                     browser.close()
-                except:
+                except Exception:
                     pass
 
     def _launch_browser(self, playwright):

@@ -13,12 +13,14 @@ def sample_data():
         {"article": "456", "name": "Test2", "description": "Simple"},
     ]
 
+
 @pytest.fixture
 def sample_data_for_csv():
     return [
         {"article": "123", "name": "Тест", "description": "Описание\nс переносом", "application": "Нанести\nна кожу"},
         {"article": "456", "name": "Test2", "description": "Simple", "application": None},
     ]
+
 
 def test_save_json_unit(sample_data):
     """Юнит-тест: записываем в память, не трогая диск."""
@@ -38,6 +40,7 @@ def test_save_json_unit(sample_data):
         ensure_ascii=False,
         indent=4
     )
+
 
 def test_save_csv_unit(sample_data_for_csv):
     buffer = io.StringIO()

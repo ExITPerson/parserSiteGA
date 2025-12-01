@@ -102,4 +102,3 @@ class ProductParser:
                 break
 
         return await page.content()
-

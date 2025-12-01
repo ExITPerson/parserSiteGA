@@ -21,7 +21,8 @@ def main():
     for key, value in end_products.items():
         save_csv(value, key)
 
-    print(f'Программа завершила работу, файлы с данными сохранены в папках data/csv и data/json')
+    print('Программа завершила работу, файлы с данными сохранены в папках data/csv и data/json')
+
 
 if __name__ == '__main__':
     main()

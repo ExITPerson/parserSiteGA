@@ -9,6 +9,7 @@ from scraper.product_parser import ProductParser
 
 MAX_PARALLEL = 4
 
+
 def get_total_products(url: str) -> int:
     """ Получение кол-ва продуктов """
     with sync_playwright() as p:
@@ -35,6 +36,7 @@ def get_total_products(url: str) -> int:
         numbers = int(re.sub(r'\D', '', match.group(0)))
         return numbers
 
+
 def articles_parser(pages):
     """ Перебор страниц и сохранение артикулов и ссылок """
     article_parser = ParserArticle()
@@ -56,6 +58,7 @@ def articles_parser(pages):
 
     print(f'Собрали артикулов: {len(articles)}')
     return articles
+
 
 async def get_product(articles_dict):
     """ Ассинхронный перебор продуктов и вытягивание всей нужной информации из html """

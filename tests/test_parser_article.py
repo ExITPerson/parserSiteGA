@@ -1,5 +1,3 @@
-import pytest
-
 from unittest.mock import patch, MagicMock
 
 from scraper.product_article import ParserArticle
@@ -28,6 +26,7 @@ HTML_NO_ARTICLES = """
 </body></html>
 """
 
+
 def mock_sync_playwright(mock_sp):
     cm = mock_sp.return_value
     cm.__enter__.return_value = object()
@@ -46,6 +45,7 @@ def patches(html):
 
     return patch_sync, patch_launch, patch_context, patch_navigate, fake_browser, fake_context
 
+
 def test_get_articles():
     parser = ParserArticle()
     patch_sync, patch_launch, patch_context, patch_navigate, fake_browser, fake_context = patches(HTML_WITH_ARTICLES)
@@ -56,6 +56,3 @@ def test_get_articles():
         s_obj = mock_sync_playwright(mock_sp)
         result = parser.get_articles('http://goldapple.ru')
         assert result == {'Article 1': '/link1', 'Article 2': '/link2'}
-
-
-
