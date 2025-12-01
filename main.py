@@ -10,7 +10,7 @@ def main():
     print(f'Найдено товаров: {count_product}')
 
     pages = int(count_product / 24) + 1
-    articles_pars = articles_parser(pages)
+    articles_pars = articles_parser(pages, count_product)
 
     products = asyncio.run(get_product(articles_pars))
 
