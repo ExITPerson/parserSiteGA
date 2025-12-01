@@ -5,7 +5,7 @@ from utils.file_io import save_json, save_csv
 from utils.sorter import sorter_product, sort_by_popularity
 
 
-def main():
+def main() -> None:
     count_product = int(get_total_products('https://goldapple.ru/parfjumerija'))
     print(f'Найдено товаров: {count_product}')
 

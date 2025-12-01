@@ -35,7 +35,7 @@ def get_total_products(url: str) -> int:
         return numbers
 
 
-def articles_parser(pages, count_product):
+def articles_parser(pages: int, count_product: int) -> dict:
     """ Перебор страниц и сохранение артикулов и ссылок """
     article_parser = ParserArticle()
     articles = {}
@@ -58,7 +58,7 @@ def articles_parser(pages, count_product):
     return articles
 
 
-async def get_product(articles_dict):
+async def get_product(articles_dict: dict) -> list:
     """ Ассинхронный перебор продуктов и вытягивание всей нужной информации из html """
     parser = ProductParser()
     semaphore = asyncio.Semaphore(MAX_PARALLEL)

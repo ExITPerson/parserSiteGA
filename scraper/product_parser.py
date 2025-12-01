@@ -9,7 +9,7 @@ from cloak.settings import TIMEOUT, FAKE_UA
 
 
 class ProductParser:
-    def __init__(self):
+    def __init__(self) -> None:
         self._viewport = {"width": 1280, "height": 720}
         self._timeout = TIMEOUT
 
@@ -70,13 +70,13 @@ class ProductParser:
                 except Exception:
                     pass
 
-    async def _launch_browser(self, playwright):
+    async def _launch_browser(self, playwright) -> None:
         return await playwright.chromium.launch(
             headless=True,
             slow_mo=50,
         )
 
-    async def _create_context(self, browser):
+    async def _create_context(self, browser) -> object:
         context = await browser.new_context(
             viewport=self._viewport,
             user_agent=random_ua() if FAKE_UA else None

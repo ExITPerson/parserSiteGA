@@ -9,7 +9,7 @@ from utils.cleaner import clean_cell
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
-def save_json(data):
+def save_json(data: dict) -> None:
 
     filepath = ROOT_DIR / 'data' / 'json'
     filepath.parent.mkdir(parents=True, exist_ok=True)
@@ -24,7 +24,7 @@ def save_json(data):
         print(f'Ошибка сохранения json файла: {e}')
 
 
-def save_csv(data, file_name):
+def save_csv(data: list, file_name: str) -> None:
 
     filepath = ROOT_DIR / 'data' / 'csv'
     filepath.parent.mkdir(parents=True, exist_ok=True)

@@ -9,7 +9,7 @@ from cloak.settings import TIMEOUT, FAKE_UA
 
 
 class ParserArticle:
-    def __init__(self):
+    def __init__(self) -> None:
         self._viewport = {"width": 1280, "height": 720}
         self._timeout = TIMEOUT
 
@@ -53,13 +53,13 @@ class ParserArticle:
                 except Exception:
                     pass
 
-    def _launch_browser(self, playwright):
+    def _launch_browser(self, playwright) -> None:
         return playwright.chromium.launch(
             headless=True,
             slow_mo=50,
         )
 
-    def _create_context(self, browser):
+    def _create_context(self, browser) -> object:
         context = browser.new_context(
             viewport=self._viewport,
             user_agent=random_ua() if FAKE_UA else None
@@ -70,7 +70,7 @@ class ParserArticle:
         """)
         return context
 
-    def _navigate_to_site(self, context, url):
+    def _navigate_to_site(self, context, url: str) -> str:
         page = context.new_page()
         page.goto(url, wait_until="domcontentloaded")
         page.wait_for_selector("div.pfzwtN", timeout=self._timeout)

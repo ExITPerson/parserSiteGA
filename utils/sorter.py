@@ -2,7 +2,7 @@ from collections import defaultdict
 from typing import Dict, List
 
 
-def sorter_product(data):
+def sorter_product(data: List[dict]) -> dict:
     """ Сортирует список товаров по типам """
     try:
         grouped = defaultdict(list)
