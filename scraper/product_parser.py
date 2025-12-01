@@ -4,7 +4,7 @@ from typing import Dict
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
-from cloak.fakeua import random_ua
+from utils.fakeua import random_ua
 from cloak.settings import TIMEOUT, FAKE_UA
 
 

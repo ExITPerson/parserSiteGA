@@ -3,11 +3,9 @@ import re
 
 from playwright.sync_api import sync_playwright
 
-from cloak.settings import WARM_UP_SITE
+from cloak.settings import WARM_UP_SITE, MAX_PARALLEL
 from scraper.product_article import ParserArticle
 from scraper.product_parser import ProductParser
-
-MAX_PARALLEL = 4
 
 
 def get_total_products(url: str) -> int:
@@ -37,7 +35,7 @@ def get_total_products(url: str) -> int:
         return numbers
 
 
-def articles_parser(pages):
+def articles_parser(pages, count_product):
     """ Перебор страниц и сохранение артикулов и ссылок """
     article_parser = ParserArticle()
     articles = {}

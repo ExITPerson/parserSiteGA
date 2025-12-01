@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from playwright.async_api import Page
 from playwright.sync_api import sync_playwright
 
-from cloak.fakeua import random_ua
+from utils.fakeua import random_ua
 from cloak.settings import TIMEOUT, FAKE_UA
 
 
