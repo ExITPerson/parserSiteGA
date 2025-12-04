@@ -1,65 +1,50 @@
-import io
-import json
+# tests/test_file_io.py
 import csv
-from unittest.mock import patch, MagicMock
+import json
+from pathlib import Path
+from unittest.mock import patch
 import pytest
 from utils import file_io
 
 
 @pytest.fixture
-def sample_data():
-    return [
-        {"article": "123", "name": "Тест", "description": "Описание\nс переносом"},
-        {"article": "456", "name": "Test2", "description": "Simple"},
-    ]
+def sample_json_data():
+    return {"electronics": [{"article": "123", "name": "Phone"}]}
 
 
 @pytest.fixture
-def sample_data_for_csv():
+def sample_csv_data():
     return [
-        {"article": "123", "name": "Тест", "description": "Описание\nс переносом", "application": "Нанести\nна кожу"},
-        {"article": "456", "name": "Test2", "description": "Simple", "application": None},
+        {"article": "123", "name": "Phone", "description": "Smart\nphone", "application": "Use\ncarefully"},
+        {"article": "456", "name": "Laptop", "description": "Gaming\nlaptop", "application": None},
     ]
 
 
-def test_save_json_unit(sample_data):
-    """Юнит-тест: записываем в память, не трогая диск."""
-    buffer = io.StringIO()
+# ---------- JSON ----------
+def test_save_json_real_fs(sample_json_data, tmp_path: Path):
+    with patch.object(file_io, "_root_dir", return_value=tmp_path):
+        file_io.save_json(sample_json_data)
 
-    fake_file = MagicMock()
-    fake_file.__enter__.return_value = buffer
-    fake_file.__exit__.return_value = None
+    expected_dir = tmp_path / "data" / "json"
 
-    with patch("utils.file_io.open", create=True) as mock_open:
-        mock_open.return_value = fake_file
-
-        file_io.save_json(sample_data)
-
-    assert buffer.getvalue() == json.dumps(
-        sample_data,
-        ensure_ascii=False,
-        indent=4
-    )
+    files = list(expected_dir.glob("*_products.json"))
+    assert len(files) == 1
+    saved = json.loads(files[0].read_text(encoding="utf-8"))
+    assert saved == sample_json_data
 
 
-def test_save_csv_unit(sample_data_for_csv):
-    buffer = io.StringIO()
+# ---------- CSV ----------
+def test_save_csv_real_fs(sample_csv_data, tmp_path: Path):
+    with patch.object(file_io, "_root_dir", return_value=tmp_path):
+        file_io.save_csv(sample_csv_data, "test")
 
-    fake_file = MagicMock()
-    fake_file.__enter__.return_value = buffer
-    fake_file.__exit__.return_value = None
+    expected_dir = tmp_path / "data" / "csv"
 
-    with patch("utils.file_io.open", create=True, return_value=fake_file):
-        with patch("utils.file_io.datetime") as mock_dt:
-            mock_dt.now.return_value.date.return_value = "2025-12-01"
+    files = list(expected_dir.glob("*_test.csv"))
+    assert len(files) == 1
 
-            file_io.save_csv(sample_data_for_csv, "products")
-
-    buffer.seek(0)
-    reader = csv.DictReader(buffer, delimiter=";")
-    rows = list(reader)
-
-    assert rows[0]["description"] == "Описание с переносом"
-    assert rows[0]["application"] == "Нанести на кожу"
-    assert rows[1]["description"] == "Simple"
+    text = files[0].read_text(encoding="utf-8-sig")
+    rows = list(csv.DictReader(text.splitlines(), delimiter=";"))
+    assert len(rows) == 2
+    assert rows[0]["description"] == "Smart phone"
     assert rows[1]["application"] == ""

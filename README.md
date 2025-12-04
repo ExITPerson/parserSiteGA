@@ -88,6 +88,30 @@ playwright install
 ```bash
 pytest --cov
 ```
+
+```text
+Name                           Stmts   Miss  Cover
+--------------------------------------------------
+cloak\__init__.py                  2      1    50%
+cloak\settings.py                  5      0   100%
+scraper\__init__.py                0      0   100%
+scraper\product_article.py        81     15    81%
+scraper\product_parser.py         84     37    56%
+tests\__init__.py                  0      0   100%
+tests\test_cleaner.py             13      0   100%
+tests\test_file_io.py             31      0   100%
+tests\test_parser_article.py      79      0   100%
+tests\test_parser_product.py      22      0   100%
+tests\test_sorter.py              44      0   100%
+utils\__init__.py                  0      0   100%
+utils\cleaner.py                   4      0   100%
+utils\fakeua.py                    3      1    67%
+utils\file_io.py                  51     14    73%
+utils\sorter.py                   38      5    87%
+--------------------------------------------------
+TOTAL                            457     73    84%
+
+```
 > [📊 Открыть детальную информацию о тестах](./htmlcov/index.html)
 
 ---
@@ -130,12 +154,12 @@ parserSiteGA/
 ### ⚙️ Конфигурация
 Все регулировки — в файле `cloak/settings.py`:
 
-| Параметр            | Значение по умолчанию | Описание |
+| Параметр            | Значение по умолчанию  | Описание |
 |---------------------|------------------------|----------|
 | `FAKE_UA`           | `False`                | `True` → использовать случайный фейковый User-Agent |
 | `TIMEOUT`           | `120_000` мс           | Максимальное время ожидания загрузки страницы |
 | `WARM_UP_SITE`      | `https://goldapple.ru` | Базовый URL (не редактировать) |
-| `MAX_PARALLEL`      | `4`                    | Количество одновременных браузеров  |
+| `MAX_PARALLEL`      | `20`                    | Количество одновременных браузеров  |
 
 > ⚠️ При медленном интернете увеличь `TIMEOUT`, а при блокировке IP — включите `FAKE_UA = True` и используйте PROXY.
 
@@ -156,7 +180,7 @@ python main.py
 ---
 
 ## 📈 Производительность
-- Асинхронная обработка до 4 потоков одновременно
+- Асинхронная обработка до 20 потоков одновременно
 - Возможность расширения до многопроцессорности при деплое на мощные серверы (рекомендация)
 
 ---

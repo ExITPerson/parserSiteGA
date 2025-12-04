@@ -1,0 +1,12 @@
+[
+    {
+        "article": "123",
+        "name": "Тест",
+        "description": "Описание\nс переносом"
+    },
+    {
+        "article": "456",
+        "name": "Test2",
+        "description": "Simple"
+    }
+]

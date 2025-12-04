@@ -35,26 +35,40 @@ def get_total_products(url: str) -> int:
         return numbers
 
 
-def articles_parser(pages: int, count_product: int) -> dict:
+async def articles_parser(pages: int, count_product: int) -> dict:
     """ Перебор страниц и сохранение артикулов и ссылок """
-    article_parser = ParserArticle()
+    urls = [f'https://goldapple.ru/parfjumerija?p= {i}' for i in range(1, pages)]
+    parser = ParserArticle()
+    sem = asyncio.Semaphore(MAX_PARALLEL)
     articles = {}
-    for i in range(1, pages):
-        url = f'https://goldapple.ru/parfjumerija?p={i}'
+    total_pages = len(urls)
 
-        pars_art = article_parser.get_articles(url)
+    async def one_page(idx: int, url: str) -> tuple[int, list | None]:
+        """ Возвращает (номер_страницы, список_артикулов)"""
+        async with sem:
+            res = await parser.get_articles(url)
+        return idx, res
 
-        if pars_art is None or not pars_art:
-            print(f'\nСтраница {i} пустая – завершаем сбор.')
-            break
+    done = 0
+    empty_streak = 0
+    for coro in asyncio.as_completed([one_page(i, u) for i, u in enumerate(urls, 1)]):
+        idx, res = await coro
+        done += 1
 
-        articles.update(pars_art)
+        if res is None:
+            empty_streak += 1
+            if empty_streak >= 50:
+                print(f"\n10 пустых страниц подряд — останавливаемся на {idx}")
+                break
+            continue
+        else:
+            empty_streak = 0
 
-        print(f'\rОбработано страниц: {i}/{pages}, Собрано артикулов: {len(articles)}/{count_product}', end='',
-              flush=True)
-    print()
+        articles.update({art: link for art, link in res})
 
-    print(f'Собрали артикулов: {len(articles)}')
+        print(f'\rОбработано страниц: {done}/{total_pages} | Артикулов: {len(articles)}/{count_product}', end='', flush=True)
+
+    print('\nГотово. Всего артикулов:', len(articles))
     return articles
 
 
