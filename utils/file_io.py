@@ -14,12 +14,13 @@ if not logger.hasHandlers():
     file_handler = RotatingFileHandler(
         'logs/product_article.log',
         encoding='utf-8',
-        maxBytes=5*1024*1024,
+        maxBytes=5 * 1024 * 1024,
         backupCount=3
     )
     file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
+
 
 def _root_dir() -> Path:
     return Path(__file__).resolve().parent.parent
@@ -72,4 +73,4 @@ def save_csv(data: list, file_name: str) -> None:
         logger.info('CSV успешно сохранён: %s', filename.name)
 
     except Exception as e:
-        logger.exception('Ошибка сохранения CSV файла')
+        logger.exception(f'Ошибка сохранения CSV файла {e}')

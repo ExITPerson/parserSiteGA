@@ -1,4 +1,3 @@
-# tests/test_file_io.py
 import csv
 import json
 from pathlib import Path
@@ -20,7 +19,6 @@ def sample_csv_data():
     ]
 
 
-# ---------- JSON ----------
 def test_save_json_real_fs(sample_json_data, tmp_path: Path):
     with patch.object(file_io, "_root_dir", return_value=tmp_path):
         file_io.save_json(sample_json_data)
@@ -33,7 +31,6 @@ def test_save_json_real_fs(sample_json_data, tmp_path: Path):
     assert saved == sample_json_data
 
 
-# ---------- CSV ----------
 def test_save_csv_real_fs(sample_csv_data, tmp_path: Path):
     with patch.object(file_io, "_root_dir", return_value=tmp_path):
         file_io.save_csv(sample_csv_data, "test")

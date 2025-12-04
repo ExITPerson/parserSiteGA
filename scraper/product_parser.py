@@ -16,7 +16,7 @@ if not logger.hasHandlers():
     file_handler = RotatingFileHandler(
         'logs/product_article.log',
         encoding='utf-8',
-        maxBytes=5*1024*1024,
+        maxBytes=5 * 1024 * 1024,
         backupCount=3
     )
     file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s: %(message)s')

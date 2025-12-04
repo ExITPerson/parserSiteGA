@@ -66,8 +66,13 @@ async def articles_parser(pages: int, count_product: int) -> dict:
 
         articles.update({art: link for art, link in res})
 
-        print(f'\rОбработано страниц: {done}/{total_pages} | Артикулов: {len(articles)}/{count_product}', end='', flush=True)
+        print(
+            f'\rОбработано страниц: {done}/{total_pages} | Артикулов: {len(articles)}/{count_product}',
+            end='',
+            flush=True
+        )
 
+    print()
     print('\nГотово. Всего артикулов:', len(articles))
     return articles
 
