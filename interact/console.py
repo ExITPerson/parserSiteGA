@@ -29,7 +29,7 @@ def get_total_products(url: str) -> int:
             text = page.text_content("body")
             browser.close()
         except Exception as e:
-            print(e)
+            print('Кол-во товаров не известно, берем дефолтное значение')
 
     match = re.search(r"\d{1,3}(?:\s\d{3})*\s(?:продукта|продуктов)", text, flags=re.I)
     if match:
@@ -37,7 +37,7 @@ def get_total_products(url: str) -> int:
         return numbers
 
 
-async def articles_parser(pages: int, count_product: int) -> dict:
+async def articles_parser(pages: int = 601, count_product: int = 600 * 24) -> dict:
     """Перебор страниц и сохранение артикулов и ссылок"""
     urls = [f"https://goldapple.ru/parfjumerija?p={i}" for i in range(1, pages)]
     parser = ParserArticle()
@@ -60,7 +60,7 @@ async def articles_parser(pages: int, count_product: int) -> dict:
         if res is None:
             empty_streak += 1
             if empty_streak >= 50:
-                print(f"\n10 пустых страниц подряд — останавливаемся на {idx}")
+                print(f"\n50 пустых страниц подряд — останавливаемся на {idx}")
                 break
             continue
         else:
