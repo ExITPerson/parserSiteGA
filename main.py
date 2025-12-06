@@ -8,8 +8,8 @@ from utils.sorter import sorter_product, sort_by_popularity
 
 def main() -> None:
     start_time = time.time()
-    count_product = int(get_total_products('https://goldapple.ru/parfjumerija'))
-    print(f'Найдено товаров: {count_product}')
+    count_product = int(get_total_products("https://goldapple.ru/parfjumerija"))
+    print(f"Найдено товаров: {count_product}")
 
     pages = int(count_product / 24)
     articles_pars = asyncio.run(articles_parser(pages, count_product))
@@ -23,10 +23,13 @@ def main() -> None:
     for key, value in end_products.items():
         save_csv(value, key)
 
-    print('Программа завершила работу, файлы с данными сохранены в папках data/csv и data/json')
+    print()
+    print(
+        "Программа завершила работу, файлы с данными сохранены в папках data/csv и data/json"
+    )
     end_time = time.time()
-    print(f'Время работы программы: {end_time - start_time}')
+    print(f"Время работы программы: {end_time - start_time}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

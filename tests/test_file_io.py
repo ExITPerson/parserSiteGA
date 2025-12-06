@@ -14,8 +14,18 @@ def sample_json_data():
 @pytest.fixture
 def sample_csv_data():
     return [
-        {"article": "123", "name": "Phone", "description": "Smart\nphone", "application": "Use\ncarefully"},
-        {"article": "456", "name": "Laptop", "description": "Gaming\nlaptop", "application": None},
+        {
+            "article": "123",
+            "name": "Phone",
+            "description": "Smart\nphone",
+            "application": "Use\ncarefully",
+        },
+        {
+            "article": "456",
+            "name": "Laptop",
+            "description": "Gaming\nlaptop",
+            "application": None,
+        },
     ]
 
 

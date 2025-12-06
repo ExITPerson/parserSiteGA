@@ -41,10 +41,15 @@ async def test_get_product_info_success():
     fake_browser.close = AsyncMock()
     fake_context = MagicMock(name="context")
 
-    with patch("playwright.async_api.async_playwright", new_callable=AsyncMock) as mock_async_playwright, \
-         patch.object(ProductParser, "_launch_browser", new_callable=AsyncMock) as mock_launch, \
-         patch.object(ProductParser, "_create_context", new_callable=AsyncMock) as mock_create_ctx, \
-         patch.object(ProductParser, "_navigate_to_site", new_callable=AsyncMock) as mock_nav:
+    with patch(
+        "playwright.async_api.async_playwright", new_callable=AsyncMock
+    ) as mock_async_playwright, patch.object(
+        ProductParser, "_launch_browser", new_callable=AsyncMock
+    ) as mock_launch, patch.object(
+        ProductParser, "_create_context", new_callable=AsyncMock
+    ) as mock_create_ctx, patch.object(
+        ProductParser, "_navigate_to_site", new_callable=AsyncMock
+    ) as mock_nav:
 
         playwright_obj = object()
         cm = AsyncMock()
@@ -56,7 +61,9 @@ async def test_get_product_info_success():
         mock_create_ctx.return_value = fake_context
         mock_nav.return_value = HTML_PRODUCT
 
-        result = await parser.get_product_info("ABC123", "https://goldapple.com/product")
+        result = await parser.get_product_info(
+            "ABC123", "https://goldapple.com/product"
+        )
 
     expected = {
         "article": "ABC123",

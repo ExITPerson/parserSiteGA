@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock
 
 from cloak.settings import TIMEOUT
-from scraper.product_article import ParserArticle   # замените на реальный путь
+from scraper.product_article import ParserArticle  # замените на реальный путь
 
 
 def test_default_init():
@@ -18,9 +18,10 @@ async def test_launch_browser(monkeypatch):
 
     fake_browser = MagicMock()
     launch_mock = AsyncMock(return_value=fake_browser)
-    monkeypatch.setattr("playwright.async_api.async_playwright", AsyncMock(
-        return_value=MagicMock(chromium=MagicMock(launch=launch_mock))
-    ))
+    monkeypatch.setattr(
+        "playwright.async_api.async_playwright",
+        AsyncMock(return_value=MagicMock(chromium=MagicMock(launch=launch_mock))),
+    )
 
     async with AsyncMock() as pw:
         pw.chromium.launch = launch_mock
@@ -43,9 +44,7 @@ async def test_create_context(monkeypatch):
     ctx = await p._create_context(browser)
 
     new_ctx_mock.assert_awaited_once_with(
-        viewport=p._viewport,
-        proxy=None,
-        user_agent=None
+        viewport=p._viewport, proxy=None, user_agent=None
     )
     fake_ctx.add_init_script.assert_awaited_once()
     assert ctx is fake_ctx
@@ -67,8 +66,12 @@ async def test_navigate_to_site(monkeypatch):
 
     html = await p._navigate_to_site(context_mock, "http://test")
 
-    page_mock.goto.assert_awaited_once_with("http://test", wait_until="domcontentloaded")
-    page_mock.wait_for_selector.assert_awaited_once_with("div.pfzwtN", timeout=p._timeout)
+    page_mock.goto.assert_awaited_once_with(
+        "http://test", wait_until="domcontentloaded"
+    )
+    page_mock.wait_for_selector.assert_awaited_once_with(
+        "div.pfzwtN", timeout=p._timeout
+    )
     assert html == "<html></html>"
 
 
